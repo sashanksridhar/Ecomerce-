@@ -1,0 +1,95 @@
+SQL> create procedure vendor_details(v_id in number,v_name in varchar,v_place in varchar,i_id in number,i_name in varchar,i_type in varchar,i_price in number) as
+  2  begin
+  3  insert into vendor(id,name,place) values (v_id,v_name,v_place);
+  4  insert into items(item_code,name,type,price) values(i_id,i_name,i_type,i_price);
+  5  insert into produces(item_code,id) values(i_id,v_id);
+  6  end;
+  7  /
+
+
+create function cal
+	(i_code in number,v_id in number)
+	return number
+is
+ 	cost number;
+	price number;
+	disount number;
+  	cursor c1 is
+  	select x.price,y.discount from produces x,sale y where x.item_code = y.item_code and x.item_code = i_code and x.id = v_id;
+begin
+open c1;
+fetch c1 into price,disount;
+close c1;
+cost := price - (price*disount/100);
+return cost;
+end;
+
+create procedure add_card (card_n in number,c_pin in number,cus_id in number,crt_id in number)
+as
+begin
+insert into credit_card(card_no,pin,c_id) values(card_n,c_pin,cus_id);
+update cart set card_no = card_n where cart_id = crt_id;
+end;
+
+
+create trigger place_order after update on cart 
+for each row
+declare
+cursor c1 is select max(order_id) from myorder;
+oid number;
+
+begin
+open c1;
+fetch c1 into oid;
+close c1;
+oid := oid + 1;
+insert into myorder(order_id,cart_id) values(oid,:old.cart_id);
+end;
+
+
+
+create trigger ship_order after insert on shipping 
+for each row
+declare
+cursor c1 is select x.c_id from cart x,myorder y where x.cart_id = y.cart_id and y.order_id = :new.order_id;
+cid number;
+begin
+open c1;
+fetch c1 into cid;
+close c1;
+insert into ships(ship_id,c_id) values(:new.ship_id,cid);
+end;
+
+create procedure list_items(v_id in number,i_id in number,i_name in varchar,i_type in varchar,i_price in number) as
+    begin
+    insert into items(item_code,name,type) values(i_id,i_name,i_type);
+    insert into produces(item_code,id,price) values(i_id,v_id,i_price);
+    end;
+    /
+
+create procedure create_customer(cid in number,add in varchar,fn in varchar,ln in varchar,em in varchar,cart in number) as
+begin
+insert into customer(c_id,address,first_name,last_name,email) values(cid,add,fn,ln,em);
+insert into cart(cart_id,c_id) values(cart,cid);
+end;
+/
+
+create trigger order_backup after insert on myorder 
+for each row
+declare
+cursor c1 is select x.item_code,x.cart_id,x.quantity,x.price,x.total from adds x where x.cart_id = :new.cart_id;
+item number;
+cart number;
+quan number;
+price number;
+tot number;
+begin
+open c1;
+loop
+
+fetch c1 into item,cart,quan,price,tot;
+exit when c1%notfound;
+insert into order_placed(order_id,item_code,quantity,price,total) values(:new.order_id,item,quan,price,tot);
+end loop;
+delete from adds where cart_id = cart;
+end;

@@ -1,0 +1,107 @@
+
+drop table phone;
+drop table produces;
+drop table vendor;
+drop table sale;
+drop table adds;
+drop table orders;
+drop table items;
+drop table ships;
+drop table shipping;
+drop table myorder;
+drop table cart;
+drop table credit_card;
+drop table customer;
+
+create table customer( 
+c_id number(4), 
+address varchar(100), 
+first_name varchar(30), 
+last_name varchar(30), 
+email varchar(30));
+create table items( 
+item_code number(4) , 
+name varchar(15), 
+type varchar(15), 
+price number(6)); 
+
+create table cart( 
+cart_id number(4) ,card_no number(10)
+); 
+create table credit_card( 
+credit_id number(4), 
+card_no number(10), 
+pin number(4),c_id number(4)); 
+create table myorder( 
+order_id number(4) , cart_id number(4));
+create table phone( c_id number(4), ph number(10));
+create table sale( 
+item_code number(4), 
+availabity varchar(5), 
+discount number(2));  
+create table shipping( 
+ship_id number(4), 
+provider varchar(10),order_id number(4));  
+create table vendor( 
+id number(4), 
+name varchar(15), 
+place varchar(30)); 
+
+alter table cart 
+add primary key (cart_id);
+alter table credit card 
+add primary key(card_no); 
+alter table customer 
+add primary key(c_id); 
+alter table items 
+add primary key(item_code); 
+
+alter table myorder 
+add primary key (order_id);
+alter table shipping 
+add primary key(ship_id);
+alter table vendor 
+add primary key(id);
+
+alter table sale 
+add primary key(item_code) 
+add foreign key(item_code) references items (item_code);
+alter table phone add primary key(ph);
+
+
+create table ships( 
+ship_id number(4), 
+c_id number(4), 
+primary key(c_id,ship_id), 
+foreign key (ship_id) references shipping(ship_id), 
+foreign key(c_id) references customer(c_id)); 
+create table adds( 
+item_code number(4), 
+cart_id number(4),price number(6),
+quantity number(3) , 
+total as (quantity * 
+price), 
+primary key(item_code,cart_id), 
+foreign key (item_code) references items (item_code), 
+foreign key (cart_id) references cart(cart_id));
+
+create table produces( 
+item_code number(4) , 
+id number(4), 
+primary key(item_code,id), 
+foreign key (item_code) references items(item_code), 
+foreign key (id) references vendor(id));
+create table orders( 
+c_id number(4) , 
+item_code number(4), 
+foreign key(c_id) references customer(c_id), 
+foreign key(item_code) references items(item_code));
+
+alter table phone
+ add foreign key (c_id) references customer(c_id);
+alter table cart add foreign key (card_no) references credit_card(card_no);
+alter table credit_card add foreign key (c_id) references customer(c_id);
+alter table myorder 
+add foreign key (cart_id) references cart(cart_id);
+alter table shipping add foreign key(order_id) references myorder(order_id);
+

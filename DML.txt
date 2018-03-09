@@ -1,0 +1,88 @@
+insert into customer(c_id,address,first_name,last_name,email) values(101,'AE-42,Anna Nagar,Chennai-600040','sashank','sridhar','sashank@gmail.com');
+insert into customer(c_id,address,first_name,last_name,email) values(102,'No.10,Brindavan Avenue,Tambaram,Chennai-600045','aparajit','kr','aparajit@gmail.com');
+insert into customer(c_id,address,first_name,last_name,email) values(103,'No.18,Barathi Nagar,KTC Nagar,Thirunelvi - 627017','ben','stewart','ben@gmail.com');
+insert into customer(c_id,address,first_name,last_name,email) values(104,'6/107D,Kanyakumari-629702','sam','sundar','sam@gmail.com');
+insert into customer(c_id,address,first_name,last_name,email) values(105,'183,Arcot Road,Vadapalani,Chennai-600026','rahul','seetharaman','rahul@gmail.com');
+
+insert into phone(c_id,ph) values(101,9791015488);
+insert into phone(c_id,ph) values(101,8939759507);
+insert into phone(c_id,ph) values(102,9940197507);
+insert into phone(c_id,ph) values(103,9877625335);
+insert into phone(c_id,ph) values(104,8877228833);
+insert into phone(c_id,ph) values(105,9877883392);
+insert into phone(c_id,ph) values(105,7667898878);
+
+insert into credit_card (card_no,pin,c_id) values(42589988,1111,101);
+insert into credit_card (card_no,pin,c_id) values(22338877,1254,102);
+insert into credit_card (card_no,pin,c_id) values(78962321,1212,101);
+insert into credit_card (card_no,pin,c_id) values(77889988,2222,103);
+insert into credit_card (card_no,pin,c_id) values(66552277,1111,104);
+insert into credit_card (card_no,pin,c_id) values(78776788,1999,105);
+
+insert into vendor (id,name,place) values(301,'prestige','chennai,india');
+insert into vendor (id,name,place) values(302,'samsung','bengaluru,india');
+insert into vendor (id,name,place) values(303,'lg','kolkata,india');
+insert into vendor (id,name,place) values(304,'voltas','mumbai,india');
+insert into vendor (id,name,place) values(305,'apple','new delhi,india');
+
+insert into items (item_code,name,type,price) values(201,'cooker','kitchen',500);
+insert into items (item_code,name,type,price) values(202,'mobile','phone',20000);
+insert into items (item_code,name,type,price) values(203,'air conditioner','home appliance',30000);
+insert into items (item_code,name,type,price) values(204,'refridgerator','home appliance',25000);
+insert into items (item_code,name,type,price) values(205,'tv','home appliance',35000);
+
+insert into produces(item_code,id) values(201,301);
+insert into produces(item_code,id) values(202,302);
+insert into produces(item_code,id) values(202,303);
+insert into produces(item_code,id) values(202,305);
+insert into produces(item_code,id) values(203,304);
+insert into produces(item_code,id) values(203,303);
+insert into produces(item_code,id) values(203,302);
+insert into produces(item_code,id) values(204,302);
+insert into produces(item_code,id) values(204,303);
+insert into produces(item_code,id) values(205,302);
+insert into produces(item_code,id) values(205,303);
+insert into produces(item_code,id) values(205,305);
+
+insert into sale(availability,discount,item_code) values('yes',15,201);
+insert into sale(availability,discount,item_code) values('no',10,205);
+insert into sale(availability,discount,item_code) values('yes',45,203);
+insert into sale(availability,discount,item_code) values('no',5,202);
+insert into sale(availability,discount,item_code) values('yes',30,204);
+
+insert into orders(c_id,item_code) values(101,201);
+insert into orders(c_id,item_code) values(101,205);
+insert into orders(c_id,item_code) values(102,202);
+insert into orders(c_id,item_code) values(103,201);
+insert into orders(c_id,item_code) values(104,204);
+
+insert into cart(cart_id,card_no) values(501,42589988);
+insert into cart(cart_id,card_no) values(502,22338877);
+insert into cart(cart_id,card_no) values(503,77889988);
+insert into cart(cart_id,card_no) values(504,66552277);
+insert into cart(cart_id,card_no) values(505,78776788);
+
+insert into adds(item_code,cart_id,quantity,price,total) values(201,501,2,500,default);
+insert into adds(item_code,cart_id,quantity,price,total) values(202,502,1,20000,default);
+insert into adds(item_code,cart_id,quantity,price,total) values(203,501,1,30000,default);
+insert into adds(item_code,cart_id,quantity,price,total) values(204,503,2,25000,default);
+insert into adds(item_code,cart_id,quantity,price,total) values(205,504,3,35000,default);
+insert into adds(item_code,cart_id,quantity,price,total) values(201,505,10,500,default);
+
+insert into myorder(order_id,cart_id) values(601,501);
+insert into myorder(order_id,cart_id) values(602,502);
+insert into myorder(order_id,cart_id) values(603,503);
+insert into myorder(order_id,cart_id) values(604,504);
+insert into myorder(order_id,cart_id) values(605,505);
+
+insert into shipping(ship_id,provider,order_id) values(701,'ekartel',601);
+insert into shipping(ship_id,provider,order_id) values(702,'delhivery',602);
+insert into shipping(ship_id,provider,order_id) values(703,'blue dart',603);
+insert into shipping(ship_id,provider,order_id) values(704,'fed ex',604);
+insert into shipping(ship_id,provider,order_id) values(705,'dhl',605);
+
+insert into ships(ship_id,c_id) values(701,101);
+insert into ships(ship_id,c_id) values(702,102);
+insert into ships(ship_id,c_id) values(703,103);
+insert into ships(ship_id,c_id) values(704,104);
+insert into ships(ship_id,c_id) values(705,105);
